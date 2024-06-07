@@ -1,4 +1,4 @@
-
+#[allow(unused, non_snake_case)]
 pub mod LDA{
     use crate::Byte;
     pub const IMM: Byte = 0xA9;

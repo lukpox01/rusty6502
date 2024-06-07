@@ -1,25 +1,8 @@
-mod instructions;
+use crate::{Byte, Cycle, instructions, Word};
+use crate::memory::Memory;
 
-
-// http://www.6502.org/users/obelisk/6502/index.html
-type Byte = u8;
-type Word = u16;
-// type DoubleWord = u32;
-type Cycle = u8;
-
-
-struct Memory {
-    data: [Byte; 64*1024],
-}
-
-impl Memory {
-    fn new() -> Memory {
-        Memory{data: [0; 64*1024]}
-    }
-}
-
-#[allow(non_snake_case)]
-struct Flags {
+#[allow(non_snake_case, unused)]
+pub struct Flags {
     Carry: bool,
     Zero: bool,
     InterruptDisable: bool,
@@ -30,24 +13,24 @@ struct Flags {
 }
 
 #[allow(non_snake_case)]
-struct CPU {
-    PC: Word, // Program Counter
-    SP: Byte, // Stack Pointer
+pub struct CPU {
+    pub PC: Word, // Program Counter
+    pub SP: Byte, // Stack Pointer
 
     // Registers
-    A: Byte, // Accumulator
-    X: Byte,
-    Y: Byte,
+    pub A: Byte, // Accumulator
+    pub X: Byte,
+    pub Y: Byte,
 
     // Status Register
-    Status: Flags,
+    pub Status: Flags,
 
 }
 
 
-#[allow(non_snake_case)]
+#[allow(non_snake_case, unused)]
 impl CPU {
-    fn new() -> CPU {
+    pub fn new() -> CPU {
         CPU {
             PC: 0,
             SP: 0,
@@ -66,7 +49,7 @@ impl CPU {
         }
     }
 
-    fn reset(&mut self) {
+    pub fn reset(&mut self) {
         self.PC = 0xFFFC;
         self.SP = 0xFF;
         self.Status = Flags {
@@ -100,7 +83,7 @@ impl CPU {
         data
     }
 
-    fn execute(&mut self, mem: &mut Memory) {
+    pub fn execute(&mut self, mem: &mut Memory) {
         let opcode = self.fetch_byte(mem);
         match opcode {
             instructions::LDA::IMM => {
@@ -150,20 +133,4 @@ impl CPU {
         *cycle -= 1;
         self.set_flags_LDA()
     }
-}
-
-
-fn main() {
-    let mut mem = Memory::new();
-    let mut cpu = CPU::new();
-    cpu.reset();
-
-    mem.data[0xFFFC] = instructions::LDA::ZPX;
-    mem.data[0xFFFD] = 0x10;
-    mem.data[0x0010] = 0x11;
-    cpu.X = 0x5;
-
-    cpu.execute(&mut mem);
-
-    println!("A - {}", cpu.A);
 }
