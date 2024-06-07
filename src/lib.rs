@@ -5,7 +5,6 @@ mod memory;
 mod test;
 
 
-
 // http://www.6502.org/users/obelisk/6502/index.html
 type Byte = u8;
 type Word = u16;

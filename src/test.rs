@@ -1,7 +1,6 @@
-
-use crate::memory::Memory;
 use crate::cpu::CPU;
-use crate::{instructions};
+use crate::instructions;
+use crate::memory::Memory;
 
 #[allow(non_snake_case)]
 #[test]
@@ -76,7 +75,6 @@ fn LDA_IMM_CAN_LOAD() {
     assert_eq!(cpu.Status.DecimalMode, false);
     assert_eq!(cpu.Status.InterruptDisable, false);
     assert_eq!(cpu.Status.Break, false);
-
 }
 
 #[allow(non_snake_case)]

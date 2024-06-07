@@ -45,7 +45,7 @@ impl CPU {
                 Break: false,
                 Overflow: false,
                 Negative: false,
-            }
+            },
         }
     }
 
@@ -164,7 +164,7 @@ impl CPU {
         *cycle -= 1;
         let address = base_address + self.X as Word;
         *cycle -= 1;
-        if (base_address >> 8) & 0xFF != (address>>8)&0xFF{
+        if (base_address >> 8) & 0xFF != (address >> 8) & 0xFF {
             *cycle -= 1
         }
         let value = self.read_byte(mem, address);
@@ -179,7 +179,7 @@ impl CPU {
         *cycle -= 1;
         let address = base_address + self.Y as Word;
         *cycle -= 1;
-        if (base_address >> 8) & 0xFF != (address>>8)&0xFF{
+        if (base_address >> 8) & 0xFF != (address >> 8) & 0xFF {
             *cycle -= 1
         }
         let value = self.read_byte(mem, address);
@@ -195,7 +195,7 @@ impl CPU {
         address = address + self.X as Word;
         *cycle -= 1;
         let lo = self.read_byte(mem, address);
-        let hi = self.read_byte(mem, address+0x01);
+        let hi = self.read_byte(mem, address + 0x01);
         *cycle -= 1;
         let effective_address = ((hi as u16) << 8) | lo as u16;
         *cycle -= 1;
@@ -210,12 +210,12 @@ impl CPU {
         let zp_address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
         *cycle -= 1;
         let lo = self.read_byte(mem, zp_address);
-        let hi = self.read_byte(mem, zp_address+0x01);
+        let hi = self.read_byte(mem, zp_address + 0x01);
         *cycle -= 1;
-        let base_address = (((hi as u16) << 8) | lo as u16) ;
+        let base_address = (((hi as u16) << 8) | lo as u16);
         let effective_address = base_address + self.Y as u16;
         *cycle -= 1;
-        if (base_address >> 8) & 0xFF != (effective_address>>8)&0xFF{
+        if (base_address >> 8) & 0xFF != (effective_address >> 8) & 0xFF {
             *cycle -= 1
         }
         let value = self.read_byte(mem, effective_address as Word);

@@ -1,6 +1,7 @@
 #[allow(unused, non_snake_case)]
-pub mod LDA{
+pub mod LDA {
     use crate::Byte;
+
     pub const IMM: Byte = 0xA9;
     pub const ZP: Byte = 0xA5;
     pub const ZPX: Byte = 0xB5;
@@ -9,7 +10,6 @@ pub mod LDA{
     pub const ABSY: Byte = 0xB9;
     pub const INDX: Byte = 0xA1;
     pub const INDY: Byte = 0xB1;
-
 }
 
 
