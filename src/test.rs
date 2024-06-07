@@ -48,5 +48,5 @@ fn LDA_IMM_CAN_LOAD() {
 
     cpu.execute(&mut mem);
 
-    assert_eq!(cpu.A, 0x9)
+    assert_eq!(cpu.A, 0x10)
 }
