@@ -103,11 +103,14 @@ impl CPU {
     fn execute(&mut self, mem: &mut Memory) {
         let opcode = self.fetch_byte(mem);
         match opcode {
-            instructions::LDA_IMM => {
+            instructions::LDA::IMM => {
                 self.handle_LDA_IMM(mem, &mut 2);
             }
-            instructions::LDA_ZP => {
+            instructions::LDA::ZP => {
                 self.handle_LDA_ZP(mem, &mut 3);
+            }
+            instructions::LDA::ZPX => {
+                self.handle_LDA_ZPX(mem, &mut 4)
             }
             _ => panic!("Unknown opcode: {:X}", opcode),
         }
@@ -135,6 +138,18 @@ impl CPU {
         *cycle -= 1;
         self.set_flags_LDA()
     }
+
+    fn handle_LDA_ZPX(&mut self, mem: &mut Memory, cycle: &mut Cycle) {
+        let address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
+        *cycle -= 1;
+        let mut value = self.read_byte(mem, address);
+        *cycle -= 1;
+        value += self.X;
+        *cycle -= 1;
+        self.A = value;
+        *cycle -= 1;
+        self.set_flags_LDA()
+    }
 }
 
 
@@ -143,15 +158,11 @@ fn main() {
     let mut cpu = CPU::new();
     cpu.reset();
 
-    mem.data[0xFFFC] = 0xA9;
+    mem.data[0xFFFC] = instructions::LDA::ZPX;
     mem.data[0xFFFD] = 0x10;
-    mem.data[0xFFFe] = 0xA9;
-    mem.data[0xFFFf] = 0x89;
+    mem.data[0x0010] = 0x11;
+    cpu.X = 0x5;
 
-
-
-
-    cpu.execute(&mut mem);
     cpu.execute(&mut mem);
 
     println!("A - {}", cpu.A);
