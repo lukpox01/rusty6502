@@ -1,4 +1,4 @@
-use crate::{Byte, Cycle, instructions, Word};
+use crate::{Byte,instructions, Word};
 use crate::memory::Memory;
 
 #[allow(non_snake_case, unused)]
@@ -83,33 +83,64 @@ impl CPU {
         data
     }
 
-    pub fn execute(&mut self, mem: &mut Memory, cycle: &mut Cycle) {
+    pub fn execute(&mut self, mem: &mut Memory) {
         let opcode = self.fetch_byte(mem);
         match opcode {
             instructions::LDA::IMM => {
-                self.handle_LDA_IMM(mem, cycle);
+                self.handle_LDA_IMM(mem);
             }
             instructions::LDA::ZP => {
-                self.handle_LDA_ZP(mem, cycle);
+                self.handle_LDA_ZP(mem);
             }
             instructions::LDA::ZPX => {
-                self.handle_LDA_ZPX(mem, cycle)
+                self.handle_LDA_ZPX(mem)
             }
             instructions::LDA::ABS => {
-                self.handle_LDA_ABS(mem, cycle)
+                self.handle_LDA_ABS(mem)
             }
             instructions::LDA::ABSX => {
-                self.handle_LDA_ABSX(mem, cycle)
+                self.handle_LDA_ABSX(mem)
             }
             instructions::LDA::ABSY => {
-                self.handle_LDA_ABSY(mem, cycle)
+                self.handle_LDA_ABSY(mem)
             }
             instructions::LDA::INDX => {
-                self.handle_LDA_INDX(mem, cycle)
+                self.handle_LDA_INDX(mem)
             }
             instructions::LDA::INDY => {
-                self.handle_LDA_INDY(mem, cycle)
+                self.handle_LDA_INDY(mem)
             }
+            instructions::LDX::IMM => {
+                self.handle_LDX_IMM(mem)
+            }
+            instructions::LDX::ZP => {
+                self.handle_LDX_ZP(mem)
+            }
+            instructions::LDX::ZPY => {
+                self.handle_LDX_ZPY(mem)
+            }
+            instructions::LDX::ABS => {
+                self.handle_LDX_ABS(mem)
+            }
+            instructions::LDX::ABSY => {
+                self.handle_LDX_ABSY(mem)
+            }
+            instructions::LDY::IMM => {
+                self.handle_LDY_IMM(mem)
+            }
+            instructions::LDY::ZP => {
+                self.handle_LDY_ZP(mem)
+            }
+            instructions::LDY::ZPX => {
+                self.handle_LDY_ZPX(mem)
+            }
+            instructions::LDY::ABS => {
+                self.handle_LDY_ABS(mem)
+            }
+            instructions::LDY::ABSX => {
+                self.handle_LDY_ABSX(mem)
+            }
+
             _ => panic!("Unknown opcode: {:X}", opcode),
         }
     }
@@ -119,109 +150,188 @@ impl CPU {
         self.Status.Negative = (self.A & 0b1000_0000) > 0;
     }
 
-    fn handle_LDA_IMM(&mut self, mem: &mut Memory, cycle: &mut Cycle) {
+    fn set_flags_LDX(&mut self) {
+        self.Status.Zero = self.X == 0;
+        self.Status.Negative = (self.X & 0b1000_0000) > 0;
+    }
+
+    fn set_flags_LDY(&mut self) {
+        self.Status.Zero = self.Y == 0;
+        self.Status.Negative = (self.Y & 0b1000_0000) > 0;
+    }
+
+    fn IMM_ADDRESSING(&mut self, mem: &mut Memory) -> Byte{
         let value = self.fetch_byte(mem);
-        *cycle -= 1;
-        self.A = value;
-        *cycle -= 1;
-        self.set_flags_LDA()
+        value
     }
 
-    fn handle_LDA_ZP(&mut self, mem: &mut Memory, cycle: &mut Cycle) {
+    fn ZP_ADDRESSING(&mut self, mem: &mut Memory) -> Byte{
         let address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
-        *cycle -= 1;
         let value = self.read_byte(mem, address);
-        *cycle -= 1;
-        self.A = value;
-        *cycle -= 1;
-        self.set_flags_LDA()
+        value
     }
 
-    fn handle_LDA_ZPX(&mut self, mem: &mut Memory, cycle: &mut Cycle) {
+    fn ZPX_ADDRESSING(&mut self, mem: &mut Memory) -> Byte{
         let address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
-        *cycle -= 1;
         let mut value = self.read_byte(mem, address);
-        *cycle -= 1;
         value += self.X;
-        *cycle -= 1;
-        self.A = value;
-        *cycle -= 1;
-        self.set_flags_LDA()
+        value
     }
 
-    fn handle_LDA_ABS(&mut self, mem: &mut Memory, cycle: &mut Cycle) {
-        let address: Word = self.fetch_word(mem);
-        *cycle -= 1;
+    fn ZPY_ADDRESSING(&mut self, mem: &mut Memory) -> Byte{
+        let address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
         let mut value = self.read_byte(mem, address);
-        *cycle -= 1;
-        self.A = value;
-        *cycle -= 1;
-        self.set_flags_LDA()
+        value += self.Y;
+        value
     }
 
-    fn handle_LDA_ABSX(&mut self, mem: &mut Memory, cycle: &mut Cycle) {
+    fn ABSX_ADDRESSING(&mut self, mem: &mut Memory) -> Byte{
         let base_address: Word = self.fetch_word(mem);
-        *cycle -= 1;
         let address = base_address + self.X as Word;
-        *cycle -= 1;
-        if (base_address >> 8) & 0xFF != (address >> 8) & 0xFF {
-            *cycle -= 1
-        }
         let value = self.read_byte(mem, address);
-        *cycle -= 1;
-        self.A = value;
-        *cycle -= 1;
-        self.set_flags_LDA()
+        value
     }
 
-    fn handle_LDA_ABSY(&mut self, mem: &mut Memory, cycle: &mut Cycle) {
+    fn ABSY_ADDRESSING(&mut self, mem: &mut Memory) -> Byte{
         let base_address: Word = self.fetch_word(mem);
-        *cycle -= 1;
         let address = base_address + self.Y as Word;
-        *cycle -= 1;
-        if (base_address >> 8) & 0xFF != (address >> 8) & 0xFF {
-            *cycle -= 1
-        }
         let value = self.read_byte(mem, address);
-        *cycle -= 1;
-        self.A = value;
-        *cycle -= 1;
-        self.set_flags_LDA()
+        value
     }
 
-    fn handle_LDA_INDX(&mut self, mem: &mut Memory, cycle: &mut Cycle) {
+    fn ABS_ADDRESSING(&mut self, mem: &mut Memory) -> Byte{
+        let address: Word = self.fetch_word(mem);
+        let mut value = self.read_byte(mem, address);
+        value
+    }
+
+    fn INDX_ADDRESSING(&mut self, mem: &mut Memory) -> Byte{
         let mut address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
-        *cycle -= 1;
         address = address + self.X as Word;
-        *cycle -= 1;
         let lo = self.read_byte(mem, address);
         let hi = self.read_byte(mem, address + 0x01);
-        *cycle -= 1;
         let effective_address = ((hi as u16) << 8) | lo as u16;
-        *cycle -= 1;
         let value = self.read_byte(mem, effective_address);
-        *cycle -= 1;
+        value
+    }
+
+    fn INDY_ADDRESSING(&mut self, mem: &mut Memory) -> Byte{
+        let zp_address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
+        let lo = self.read_byte(mem, zp_address);
+        let hi = self.read_byte(mem, zp_address + 0x01);
+        let base_address = (((hi as u16) << 8) | lo as u16);
+        let effective_address = base_address + self.Y as u16;
+        let value = self.read_byte(mem, effective_address as Word);
+        value
+    }
+
+
+    fn handle_LDA_IMM(&mut self, mem: &mut Memory) {
+        let value = self.IMM_ADDRESSING(mem);
         self.A = value;
-        *cycle -= 1;
         self.set_flags_LDA()
     }
 
-    fn handle_LDA_INDY(&mut self, mem: &mut Memory, cycle: &mut Cycle) {
-        let zp_address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
-        *cycle -= 1;
-        let lo = self.read_byte(mem, zp_address);
-        let hi = self.read_byte(mem, zp_address + 0x01);
-        *cycle -= 1;
-        let base_address = (((hi as u16) << 8) | lo as u16);
-        let effective_address = base_address + self.Y as u16;
-        *cycle -= 1;
-        if (base_address >> 8) & 0xFF != (effective_address >> 8) & 0xFF {
-            *cycle -= 1
-        }
-        let value = self.read_byte(mem, effective_address as Word);
-        *cycle -= 1;
+    fn handle_LDA_ZP(&mut self, mem: &mut Memory) {
+        let value = self.ZP_ADDRESSING(mem);
         self.A = value;
-        *cycle -= 1;
         self.set_flags_LDA()
     }
+
+    fn handle_LDA_ZPX(&mut self, mem: &mut Memory) {
+        let value = self.ZPX_ADDRESSING(mem);
+        self.A = value;
+        self.set_flags_LDA()
+    }
+
+    fn handle_LDA_ABS(&mut self, mem: &mut Memory) {
+        let value = self.ABS_ADDRESSING(mem);
+        self.A = value;
+        self.set_flags_LDA()
+    }
+
+    fn handle_LDA_ABSX(&mut self, mem: &mut Memory) {
+        let value = self.ABSX_ADDRESSING(mem);
+        self.A = value;
+        self.set_flags_LDA()
+    }
+
+    fn handle_LDA_ABSY(&mut self, mem: &mut Memory) {
+        let value = self.ABSY_ADDRESSING(mem);
+        self.A = value;
+        self.set_flags_LDA()
+    }
+
+    fn handle_LDA_INDX(&mut self, mem: &mut Memory) {
+        let value = self.INDX_ADDRESSING(mem);
+        self.A = value;
+        self.set_flags_LDA()
+    }
+
+    fn handle_LDA_INDY(&mut self, mem: &mut Memory) {
+        let value = self.INDY_ADDRESSING(mem);
+        self.A = value;
+        self.set_flags_LDA()
+    }
+
+    fn handle_LDX_IMM(&mut self, mem: &mut Memory) {
+        let value = self.IMM_ADDRESSING(mem);
+        self.X = value;
+        self.set_flags_LDX()
+    }
+
+    fn handle_LDX_ZP(&mut self, mem: &mut Memory) {
+        let value = self.ZP_ADDRESSING(mem);
+        self.X = value;
+        self.set_flags_LDX()
+    }
+
+    fn handle_LDX_ZPY(&mut self, mem: &mut Memory) {
+        let value = self.ZPY_ADDRESSING(mem);
+        self.X = value;
+        self.set_flags_LDX()
+    }
+
+    fn handle_LDX_ABS(&mut self, mem: &mut Memory) {
+        let value = self.ABS_ADDRESSING(mem);
+        self.X = value;
+        self.set_flags_LDX()
+    }
+
+    fn handle_LDX_ABSY(&mut self, mem: &mut Memory) {
+        let value = self.ABSY_ADDRESSING(mem);
+        self.X = value;
+        self.set_flags_LDX()
+    }
+
+    fn handle_LDY_IMM(&mut self, mem: &mut Memory) {
+        let value = self.IMM_ADDRESSING(mem);
+        self.Y = value;
+        self.set_flags_LDY()
+    }
+
+    fn handle_LDY_ZP(&mut self, mem: &mut Memory) {
+        let value = self.ZP_ADDRESSING(mem);
+        self.Y = value;
+        self.set_flags_LDY()
+    }
+
+    fn handle_LDY_ZPX(&mut self, mem: &mut Memory) {
+        let value = self.ZPX_ADDRESSING(mem);
+        self.Y = value;
+        self.set_flags_LDY()
+    }
+
+    fn handle_LDY_ABS(&mut self, mem: &mut Memory) {
+        let value = self.ABS_ADDRESSING(mem);
+        self.Y = value;
+        self.set_flags_LDY()
+    }
+
+    fn handle_LDY_ABSX(&mut self, mem: &mut Memory) {
+        let value = self.ABSX_ADDRESSING(mem);
+        self.Y = value;
+        self.set_flags_LDY()
+    }
+
 }

@@ -11,5 +11,25 @@ pub mod LDA {
     pub const INDX: Byte = 0xA1;
     pub const INDY: Byte = 0xB1;
 }
+#[allow(unused, non_snake_case)]
+pub mod LDX {
+    use crate::Byte;
+
+    pub const IMM: Byte = 0xA2;
+    pub const ZP: Byte = 0xA6;
+    pub const ZPY: Byte = 0xB6;
+    pub const ABS: Byte = 0xAE;
+    pub const ABSY: Byte = 0xBE;
+}
+#[allow(unused, non_snake_case)]
+pub mod LDY {
+    use crate::Byte;
+
+    pub const IMM: Byte = 0xA0;
+    pub const ZP: Byte = 0xA4;
+    pub const ZPX: Byte = 0xB4;
+    pub const ABS: Byte = 0xAC;
+    pub const ABSX: Byte = 0xBC;
+}
 
 
