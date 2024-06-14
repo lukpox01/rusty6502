@@ -19,13 +19,13 @@ fn LDA_ZPX_CAN_LOAD_AND_OFFSET() {
     assert_eq!(cpu.A, 0x16);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -44,13 +44,13 @@ fn LDA_ZP_CAN_LOAD() {
     assert_eq!(cpu.A, 0x11);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -68,13 +68,13 @@ fn LDA_IMM_CAN_LOAD() {
     assert_eq!(cpu.A, 0x10);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -92,13 +92,13 @@ fn LDA_FLAG_NEGATIVE() {
     assert_eq!(cpu.A, 0x80);
 
     // Flags
-    assert_eq!(cpu.Status.Negative, true);
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(cpu.Status.Negative);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -116,13 +116,13 @@ fn LDA_FLAG_ZERO() {
     assert_eq!(cpu.A, 0x00);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, true);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -142,13 +142,13 @@ fn LDA_ABS_CAN_LOAD() {
     assert_eq!(cpu.A, 0x15);
 
     // Flags
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -169,13 +169,13 @@ fn LDA_ABSX_CAN_LOAD() {
     assert_eq!(cpu.A, 0x15);
 
     // Flags
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -196,13 +196,13 @@ fn LDA_ABSY_CAN_LOAD() {
     assert_eq!(cpu.A, 0x0B);
 
     // Flags
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -224,13 +224,13 @@ fn LDA_INDX_CAN_LOAD() {
     assert_eq!(cpu.A, 0x0F);
 
     // Flags
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -252,13 +252,13 @@ fn LDA_INDY_CAN_LOAD() {
     assert_eq!(cpu.A, 0x22);
 
     // Flags
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -280,13 +280,13 @@ fn LDA_INDY_CROSSED_PAGE() {
     assert_eq!(cpu.A, 0x80);
 
     // Flags
-    assert_eq!(cpu.Status.Negative, true);
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(cpu.Status.Negative);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 // LDX
@@ -307,13 +307,13 @@ fn LDX_ZPY_CAN_LOAD_AND_OFFSET() {
     assert_eq!(cpu.X, 0x16);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -332,13 +332,13 @@ fn LDX_ZP_CAN_LOAD() {
     assert_eq!(cpu.X, 0x11);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -356,13 +356,13 @@ fn LDX_IMM_CAN_LOAD() {
     assert_eq!(cpu.X, 0x10);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 // LDY
@@ -383,13 +383,13 @@ fn LDY_ZPX_CAN_LOAD_AND_OFFSET() {
     assert_eq!(cpu.Y, 0x16);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -408,13 +408,13 @@ fn LDY_ZP_CAN_LOAD() {
     assert_eq!(cpu.Y, 0x11);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 #[allow(non_snake_case)]
@@ -434,13 +434,13 @@ fn LDY_ABS_CAN_LOAD() {
     assert_eq!(cpu.Y, 0x15);
 
     // Flags
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 // JMP
@@ -496,13 +496,13 @@ fn INX_CAN_INCREMENT() {
     assert_eq!(cpu.X, 0x11);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }
 
 // INY
@@ -522,11 +522,11 @@ fn INY_CAN_INCREMENT() {
     assert_eq!(cpu.Y, 0x11);
 
     // Flags
-    assert_eq!(cpu.Status.Zero, false);
-    assert_eq!(cpu.Status.Negative, false);
-    assert_eq!(cpu.Status.Overflow, false);
-    assert_eq!(cpu.Status.Carry, false);
-    assert_eq!(cpu.Status.DecimalMode, false);
-    assert_eq!(cpu.Status.InterruptDisable, false);
-    assert_eq!(cpu.Status.Break, false);
+    assert!(!cpu.Status.Zero);
+    assert!(!cpu.Status.Negative);
+    assert!(!cpu.Status.Overflow);
+    assert!(!cpu.Status.Carry);
+    assert!(!cpu.Status.DecimalMode);
+    assert!(!cpu.Status.InterruptDisable);
+    assert!(!cpu.Status.Break);
 }

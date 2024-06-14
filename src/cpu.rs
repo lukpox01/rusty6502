@@ -68,8 +68,8 @@ impl CPU {
     }
 
     fn read_byte(&mut self, mem: &Memory, address: Word) -> Byte {
-        let data = mem.data[address as usize];
-        data
+        
+        mem.data[address as usize]
     }
 
     fn fetch_word(&mut self, mem: &Memory) -> Word {
@@ -131,20 +131,20 @@ impl CPU {
     }
 
     fn ZP_ADDRESSING(&mut self, mem: &mut Memory) -> Word {
-        let address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
+        let address: Word = self.fetch_byte(mem) as Word;
         address
     }
 
     fn ABSX_ADDRESSING(&mut self, mem: &mut Memory) -> Word {
         let base_address: Word = self.fetch_word(mem);
-        let address = base_address + self.X as Word;
-        address
+        
+        base_address + self.X as Word
     }
 
     fn ABSY_ADDRESSING(&mut self, mem: &mut Memory) -> Word {
         let base_address: Word = self.fetch_word(mem);
-        let address = base_address + self.Y as Word;
-        address
+        
+        base_address + self.Y as Word
     }
 
     fn ABS_ADDRESSING(&mut self, mem: &mut Memory) -> Word {
@@ -153,21 +153,21 @@ impl CPU {
     }
 
     fn INDX_ADDRESSING(&mut self, mem: &mut Memory) -> Word {
-        let mut address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
-        address = address + self.X as Word;
+        let mut address: Word = self.fetch_byte(mem) as Word;
+        address += self.X as Word;
         let lo = self.read_byte(mem, address);
         let hi = self.read_byte(mem, address + 0x01);
-        let effective_address = ((hi as u16) << 8) | lo as u16;
-        effective_address
+        
+        ((hi as u16) << 8) | lo as u16
     }
 
     fn INDY_ADDRESSING(&mut self, mem: &mut Memory) -> Word {
-        let zp_address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
+        let zp_address: Word = self.fetch_byte(mem) as Word;
         let lo = self.read_byte(mem, zp_address);
         let hi = self.read_byte(mem, zp_address + 0x01);
         let base_address = (((hi as u16) << 8) | lo as u16);
-        let effective_address = base_address + self.Y as u16;
-        effective_address
+        
+        base_address + self.Y as u16
     }
 
     fn handle_LDA_IMM(&mut self, mem: &mut Memory) {
