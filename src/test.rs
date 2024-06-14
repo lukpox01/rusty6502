@@ -478,3 +478,55 @@ fn JMP_IND_CAN_JUMP() {
 
     assert_eq!(cpu.PC, 0x8090);
 }
+
+// INX
+#[allow(non_snake_case)]
+#[test]
+fn INX_CAN_INCREMENT() {
+    let mut mem = Memory::new();
+    let mut cpu = CPU::new();
+    cpu.reset();
+
+    cpu.X = 0x10;
+
+    mem.data[0xFFFC] = instructions::INX::IMP;
+
+    cpu.execute(&mut mem);
+
+    assert_eq!(cpu.X, 0x11);
+
+    // Flags
+    assert_eq!(cpu.Status.Zero, false);
+    assert_eq!(cpu.Status.Negative, false);
+    assert_eq!(cpu.Status.Overflow, false);
+    assert_eq!(cpu.Status.Carry, false);
+    assert_eq!(cpu.Status.DecimalMode, false);
+    assert_eq!(cpu.Status.InterruptDisable, false);
+    assert_eq!(cpu.Status.Break, false);
+}
+
+// INY
+#[allow(non_snake_case)]
+#[test]
+fn INY_CAN_INCREMENT() {
+    let mut mem = Memory::new();
+    let mut cpu = CPU::new();
+    cpu.reset();
+
+    cpu.Y = 0x10;
+
+    mem.data[0xFFFC] = instructions::INY::IMP;
+
+    cpu.execute(&mut mem);
+
+    assert_eq!(cpu.Y, 0x11);
+
+    // Flags
+    assert_eq!(cpu.Status.Zero, false);
+    assert_eq!(cpu.Status.Negative, false);
+    assert_eq!(cpu.Status.Overflow, false);
+    assert_eq!(cpu.Status.Carry, false);
+    assert_eq!(cpu.Status.DecimalMode, false);
+    assert_eq!(cpu.Status.InterruptDisable, false);
+    assert_eq!(cpu.Status.Break, false);
+}

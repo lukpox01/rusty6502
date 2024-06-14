@@ -32,9 +32,23 @@ pub mod LDY {
     pub const ABSX: Byte = 0xBC;
 }
 #[allow(unused, non_snake_case)]
-pub mod JMP{
+pub mod JMP {
     use crate::Byte;
 
     pub const ABS: Byte = 0x4C;
     pub const IND: Byte = 0x6C;
+}
+
+#[allow(unused, non_snake_case)]
+pub mod INX {
+    use crate::Byte;
+
+    pub const IMP: Byte = 0xE8;
+}
+
+#[allow(unused, non_snake_case)]
+pub mod INY {
+    use crate::Byte;
+
+    pub const IMP: Byte = 0xC8;
 }

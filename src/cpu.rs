@@ -108,6 +108,8 @@ impl CPU {
             instructions::LDY::ABSX => self.handle_LDY_ABSX(mem),
             instructions::JMP::ABS => self.handle_JMP_ABS(mem),
             instructions::JMP::IND => self.handle_JMP_IND(mem),
+            instructions::INX::IMP => self.handle_INX_IMP(),
+            instructions::INY::IMP => self.handle_INY_IMP(),
 
             _ => panic!("Unknown opcode: {:X}", opcode),
         }
@@ -132,7 +134,6 @@ impl CPU {
         let address: Word = (0x0000 | self.fetch_byte(mem)) as Word;
         address
     }
-
 
     fn ABSX_ADDRESSING(&mut self, mem: &mut Memory) -> Word {
         let base_address: Word = self.fetch_word(mem);
@@ -303,5 +304,15 @@ impl CPU {
         let hi = self.read_byte(mem, address + 0x01);
         let address = ((hi as u16) << 8) | lo as u16;
         self.PC = address;
+    }
+
+    fn handle_INX_IMP(&mut self) {
+        self.X = self.X.wrapping_add(1);
+        self.set_flags_LDX()
+    }
+
+    fn handle_INY_IMP(&mut self) {
+        self.Y = self.Y.wrapping_add(1);
+        self.set_flags_LDY()
     }
 }
