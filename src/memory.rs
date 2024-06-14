@@ -7,6 +7,8 @@ pub struct Memory {
 #[allow(unused)]
 impl Memory {
     pub fn new() -> Memory {
-        Memory { data: [0; 64 * 1024] }
+        Memory {
+            data: [0; 64 * 1024],
+        }
     }
 }

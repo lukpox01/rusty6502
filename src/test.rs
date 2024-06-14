@@ -442,3 +442,39 @@ fn LDY_ABS_CAN_LOAD() {
     assert_eq!(cpu.Status.InterruptDisable, false);
     assert_eq!(cpu.Status.Break, false);
 }
+
+// JMP
+
+#[allow(non_snake_case)]
+#[test]
+fn JMP_ABS_CAN_JUMP() {
+    let mut mem = Memory::new();
+    let mut cpu = CPU::new();
+    cpu.reset();
+
+    mem.data[0xFFFC] = instructions::JMP::ABS;
+    mem.data[0xFFFD] = 0x80;
+    mem.data[0xFFFE] = 0x80;
+
+    cpu.execute(&mut mem);
+
+    assert_eq!(cpu.PC, 0x8080);
+}
+
+#[allow(non_snake_case)]
+#[test]
+fn JMP_IND_CAN_JUMP() {
+    let mut mem = Memory::new();
+    let mut cpu = CPU::new();
+    cpu.reset();
+
+    mem.data[0xFFFC] = instructions::JMP::IND;
+    mem.data[0xFFFD] = 0x80;
+    mem.data[0xFFFE] = 0x80;
+    mem.data[0x8080] = 0x90;
+    mem.data[0x8081] = 0x80;
+
+    cpu.execute(&mut mem);
+
+    assert_eq!(cpu.PC, 0x8090);
+}

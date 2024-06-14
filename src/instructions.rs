@@ -31,5 +31,10 @@ pub mod LDY {
     pub const ABS: Byte = 0xAC;
     pub const ABSX: Byte = 0xBC;
 }
+#[allow(unused, non_snake_case)]
+pub mod JMP{
+    use crate::Byte;
 
-
+    pub const ABS: Byte = 0x4C;
+    pub const IND: Byte = 0x6C;
+}
